@@ -9,7 +9,6 @@ export default function List() {
   }
   return (
     <ListGroup as="ul">
-      <h2>Title</h2>
       {getNotes().map((note) => (
         <ListGroup.Item
           active={selectedNote ? note.id === selectedNote.id : false}

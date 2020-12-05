@@ -5,22 +5,22 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import './App.css'
 import List from './components/List'
+import Editor from './components/Editor'
+import Jumbotron from './components/Jumbotron'
+import NewNote from './components/newNote'
 
 function App() {
   return (
     <Container>
+      <Jumbotron />
       <Row>
         <Col xs={12} md={4}>
+          <NewNote />
           <List />
         </Col>
         <Col xs={12} md={8}>
-          {/* <Editor /> */}
+          <Editor />
         </Col>
-      </Row>
-      <Row>
-        <Col sm>sm=true</Col>
-        <Col sm>sm=true</Col>
-        <Col sm>sm=true</Col>
       </Row>
     </Container>
   )

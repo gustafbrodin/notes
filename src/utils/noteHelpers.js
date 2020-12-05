@@ -1,7 +1,7 @@
 const notes = [
-  {id: '1', title: 'another note', body: 'New note'},
-  {id: '2', title: 'a new note', body: 'New note'},
-  {id: '3', title: 'another new note', body: 'New note'},
+  {id: '1', title: 'A note', body: 'New note'},
+  {id: '2', title: 'A new note', body: 'New note'},
+  {id: '3', title: 'Another new note', body: 'New note'},
 ]
 
 function createNote(note) {}
