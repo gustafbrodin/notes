@@ -5,9 +5,9 @@ import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import './App.css'
 import List from './components/List'
-import Editor from './components/Editor'
+import NewNote from './components/NewNote'
 import Jumbotron from './components/Jumbotron'
-import NewNote from './components/newNote'
+import NewNoteButton from './components/newNoteButton'
 
 function App() {
   return (
@@ -15,11 +15,11 @@ function App() {
       <Jumbotron />
       <Row>
         <Col xs={12} md={4}>
-          <NewNote />
+          <NewNoteButton />
           <List />
         </Col>
         <Col xs={12} md={8}>
-          <Editor />
+          <NewNote />
         </Col>
       </Row>
     </Container>

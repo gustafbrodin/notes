@@ -8,7 +8,7 @@ export default function List() {
     setSelectedNote(note)
   }
   return (
-    <ListGroup as="ul">
+    <ListGroup as="ul" className="mb-3">
       {getNotes().map((note) => (
         <ListGroup.Item
           active={selectedNote ? note.id === selectedNote.id : false}
