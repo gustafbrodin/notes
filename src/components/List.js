@@ -1,15 +1,13 @@
-import React, {useState} from 'react'
+import React from 'react'
 import ListGroup from 'react-bootstrap/ListGroup'
-import {getNote, getNotes} from '../utils/noteHelpers'
 
-export default function List() {
-  const [selectedNote, setSelectedNote] = useState()
+export default function List({selectedNote, setSelectedNote, notes}) {
   const onSelectNote = (note) => {
     setSelectedNote(note)
   }
   return (
     <ListGroup as="ul" className="mb-3">
-      {getNotes().map((note) => (
+      {notes.map((note, index) => (
         <ListGroup.Item
           active={selectedNote ? note.id === selectedNote.id : false}
           onClick={() => onSelectNote(note)}
