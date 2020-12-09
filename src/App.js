@@ -9,7 +9,7 @@ import Editor from './components/Editor'
 import Form from './components/Form'
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import Button from 'react-bootstrap/Button'
-import * as N from './utils/noteHelpers'
+// import * as N from './utils/noteHelpers'
 import {getNotes} from './utils/noteHelpers'
 
 function App() {
@@ -22,9 +22,12 @@ function App() {
   }, [])
 
   const refreshList = () => {
+    setSelectedNote(undefined)
     const notes = getNotes()
     setNotes([...notes])
   }
+
+  const onClickNewNote = () => setSelectedNote(undefined)
 
   return (
     <Container>
@@ -33,7 +36,7 @@ function App() {
       </Jumbotron>
       <Row>
         <Col xs={12} md={4}>
-          <Button variant="dark" block className="mb-3">
+          <Button onClick={onClickNewNote} variant="dark" block className="mb-3">
             New note
           </Button>
           <List notes={notes} selectedNote={selectedNote} setSelectedNote={setSelectedNote} />

@@ -1,24 +1,37 @@
 import React, {useState, useEffect} from 'react'
 import BootstrapForm from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import {createNote, getNotes, updateNote} from '../utils/noteHelpers'
+import Alert from 'react-bootstrap/Alert'
+import {createNote, getNotes, updateNote, deleteNote} from '../utils/noteHelpers'
 
-export default function Form({selectedNote, refreshList}) {
+const NOTIFICATION_INITIAL_VALUE = ''
+
+export default function Form({selectedNote, setSelectedNote, refreshList}) {
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
+  const [notification, setNotification] = useState(NOTIFICATION_INITIAL_VALUE)
 
   useEffect(() => {
-    if (selectedNote) setTitle(selectedNote.title)
+    if (selectedNote) return setTitle(selectedNote.title)
+    setTitle('')
+    setBody('')
   }, [selectedNote])
 
   useEffect(() => {
     if (selectedNote) setBody(selectedNote.body)
   }, [selectedNote])
 
+  useEffect(() => {
+    setTimeout(() => setNotification(NOTIFICATION_INITIAL_VALUE), 3000)
+  }, [notification])
+
   const onChangeTitle = (e) => setTitle(e.target.value)
   const onChangeBody = (e) => setBody(e.target.value)
   const onSave = (e) => {
     e.preventDefault()
+    setTitle('')
+    setBody('')
+    setNotification('CREATED')
     if (selectedNote) {
       updateNote(selectedNote.id, title, body)
       return refreshList()
@@ -27,6 +40,18 @@ export default function Form({selectedNote, refreshList}) {
     createNote(title, body)
     refreshList()
   }
+
+  const onDelete = (e) => {
+    e.preventDefault()
+    if (!selectedNote) return
+    const {id} = selectedNote
+    deleteNote(id)
+    refreshList()
+    setTitle('')
+    setBody('')
+    setNotification('DELETED')
+  }
+
   return (
     <BootstrapForm>
       <BootstrapForm.Group controlId="formTitle">
@@ -39,7 +64,17 @@ export default function Form({selectedNote, refreshList}) {
       </BootstrapForm.Group>
       <Button variant="success" onClick={onSave}>
         Save
-      </Button>
+      </Button>{' '}
+      {selectedNote && (
+        <Button variant="danger" onClick={onDelete}>
+          Delete
+        </Button>
+      )}
+      {notification && (
+        <Alert variant="success" className="mt-2">
+          {notification}
+        </Alert>
+      )}
     </BootstrapForm>
   )
 }
