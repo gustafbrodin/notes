@@ -1,5 +1,3 @@
-import React, {useState} from 'react'
-
 function initializeNotes() {
   localStorage.setItem('notes', JSON.stringify([]))
   return []

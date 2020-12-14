@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import BootstrapForm from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Alert from 'react-bootstrap/Alert'
-import {createNote, getNotes, updateNote, deleteNote} from '../utils/noteHelpers'
+import {createNote, updateNote, deleteNote} from '../utils/noteHelpers'
 
 const NOTIFICATION_INITIAL_VALUE = ''
 
