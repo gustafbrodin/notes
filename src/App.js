@@ -9,7 +9,6 @@ import Editor from './components/Editor'
 import Form from './components/Form'
 import Jumbotron from 'react-bootstrap/Jumbotron'
 import Button from 'react-bootstrap/Button'
-// import * as N from './utils/noteHelpers'
 import {getNotes} from './utils/noteHelpers'
 
 function App() {

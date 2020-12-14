@@ -1,14 +1,7 @@
 import React, {useState} from 'react'
 
-// const notes = [
-//   {id: 1, title: 'A note', body: 'New note'},
-//   {id: 2, title: 'A new note', body: 'New note'},
-//   {id: 3, title: 'Another new note', body: 'New note'},
-// ]
-
 function initializeNotes() {
   localStorage.setItem('notes', JSON.stringify([]))
-  window.location.reload()
   return []
 }
 
@@ -22,7 +15,6 @@ export function createNote(title, body) {
   notes.push(newNote)
   const jsonNoteArray = JSON.stringify(notes)
   localStorage.setItem('notes', jsonNoteArray)
-  // return note
 }
 
 export function getNote(id) {
