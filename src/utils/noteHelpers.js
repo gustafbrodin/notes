@@ -23,7 +23,7 @@ export function getNote(id) {
 export function getNotes() {
   let notes = localStorage.getItem('notes')
   if (!notes) {
-    notes = initializeNotes()
+    return initializeNotes()
   }
   const parsedNotes = JSON.parse(notes)
   return parsedNotes
