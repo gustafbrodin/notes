@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 import BootstrapForm from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Alert from 'react-bootstrap/Alert'
-import {createNote, updateNote, deleteNote} from '../utils/noteHelpers'
+import {archiveNote, createNote, updateNote, deleteNote} from '../api/notes'
 
 const NOTIFICATION_INITIAL_VALUE = ''
 
@@ -52,6 +52,13 @@ export default function Form({selectedNote, setSelectedNote, refreshList}) {
     setNotification('DELETED')
   }
 
+  const onArchive = (e) => {
+    e.preventDefault()
+    archiveNote(selectedNote)
+    refreshList()
+    setTitle('')
+  }
+
   return (
     <BootstrapForm>
       <BootstrapForm.Group controlId="formTitle">
@@ -68,6 +75,11 @@ export default function Form({selectedNote, setSelectedNote, refreshList}) {
       {selectedNote && (
         <Button variant="danger" onClick={onDelete}>
           Delete
+        </Button>
+      )}{' '}
+      {selectedNote && (
+        <Button variant="secondary" onClick={onArchive}>
+          Archive
         </Button>
       )}
       {notification && (

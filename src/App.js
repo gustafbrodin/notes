@@ -1,17 +1,20 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
 import React, {useState, useEffect} from 'react'
+import 'bootstrap/dist/css/bootstrap.min.css'
+import {FaInbox, FaClipboard} from 'react-icons/fa'
+import Jumbotron from 'react-bootstrap/Jumbotron'
+import Button from 'react-bootstrap/Button'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import List from './components/List'
 import Form from './components/Form'
-import Jumbotron from 'react-bootstrap/Jumbotron'
-import Button from 'react-bootstrap/Button'
-import {getNotes} from './utils/noteHelpers'
+import {getNotes, getArchive} from './api/notes'
 
 function App() {
   const [selectedNote, setSelectedNote] = useState(undefined)
   const [notes, setNotes] = useState([])
+  const [showArchive, setShowArchive] = useState(false)
+  const [archivedNotes, setArchivedNotes] = useState([])
 
   useEffect(() => {
     const notes = getNotes()
@@ -21,7 +24,9 @@ function App() {
   const refreshList = () => {
     setSelectedNote(undefined)
     const notes = getNotes()
+    const archivedNotes = getArchive()
     setNotes([...notes])
+    setArchivedNotes([...archivedNotes])
   }
 
   const onClickNewNote = () => setSelectedNote(undefined)
@@ -34,13 +39,19 @@ function App() {
       <Row>
         <Col xs={12} md={4}>
           <Button onClick={onClickNewNote} variant="dark" block className="mb-3">
-            New note
+            New note <FaClipboard />
           </Button>
-          <List notes={notes} selectedNote={selectedNote} setSelectedNote={setSelectedNote} />
+          <List
+            notes={showArchive ? archivedNotes : notes}
+            selectedNote={selectedNote}
+            setSelectedNote={setSelectedNote}
+          />
+          <Button onClick={() => setShowArchive(!showArchive)} variant="secondary" block>
+            Archive <FaInbox />
+          </Button>
         </Col>
         <Col xs={12} md={8}>
           <Form refreshList={refreshList} selectedNote={selectedNote} />
-          {/* <Editor /> */}
         </Col>
       </Row>
     </Container>

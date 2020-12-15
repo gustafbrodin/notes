@@ -3,6 +3,11 @@ function initializeNotes() {
   return []
 }
 
+function initializeArchive() {
+  localStorage.setItem('archive', JSON.stringify([]))
+  return []
+}
+
 export function createNote(title, body) {
   const notes = getNotes()
   const newNote = {
@@ -51,4 +56,21 @@ export function deleteNote(id) {
   const jsonNoteArray = JSON.stringify(notes)
   localStorage.setItem('notes', jsonNoteArray)
   return true
+}
+
+export function archiveNote(note) {
+  const archive = getArchive()
+  deleteNote(note.id)
+  archive.push(note)
+  const jsonArchiveArray = JSON.stringify(archive)
+  localStorage.setItem('archive', jsonArchiveArray)
+}
+
+export function getArchive(note) {
+  let archive = localStorage.getItem('archive')
+  if (!archive) {
+    return initializeArchive()
+  }
+  const parsedArchive = JSON.parse(archive)
+  return parsedArchive
 }

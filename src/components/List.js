@@ -5,6 +5,9 @@ export default function List({selectedNote, setSelectedNote, notes}) {
   const onSelectNote = (note) => {
     setSelectedNote(note)
   }
+
+  if (!notes) return null
+  if (!notes.length) return <p>Your note list is empty</p>
   return (
     <ListGroup as="ul" className="mb-3">
       {notes.map((note, index) => (
