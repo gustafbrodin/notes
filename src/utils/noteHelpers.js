@@ -31,7 +31,6 @@ export function getNotes() {
 
 export function updateNote(id, title, body) {
   const notes = getNotes()
-  console.log(notes)
   const indexToUpdate = notes.findIndex((note) => note.id === id)
   const note = {
     id,

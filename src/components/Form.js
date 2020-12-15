@@ -31,7 +31,7 @@ export default function Form({selectedNote, setSelectedNote, refreshList}) {
     e.preventDefault()
     setTitle('')
     setBody('')
-    setNotification('CREATED')
+    setNotification('SAVED')
     if (selectedNote) {
       updateNote(selectedNote.id, title, body)
       return refreshList()
