@@ -2,11 +2,19 @@ import React, {useState, useEffect} from 'react'
 import BootstrapForm from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
 import Alert from 'react-bootstrap/Alert'
-import {archiveNote, createNote, updateNote, deleteNote} from '../api/notes'
+import {
+  archiveNote,
+  createNote,
+  updateNote,
+  updateArchivedNote,
+  deleteNote,
+  restoreNote,
+  deleteFromArchive,
+} from '../api/notes'
 
 const NOTIFICATION_INITIAL_VALUE = ''
 
-export default function Form({selectedNote, setSelectedNote, refreshList}) {
+export default function Form({selectedNote, setSelectedNote, refreshList, isArchived}) {
   const [title, setTitle] = useState('')
   const [body, setBody] = useState('')
   const [notification, setNotification] = useState(NOTIFICATION_INITIAL_VALUE)
@@ -41,11 +49,29 @@ export default function Form({selectedNote, setSelectedNote, refreshList}) {
     refreshList()
   }
 
+  const onSaveArchived = (e) => {
+    e.preventDefault()
+    setTitle('')
+    setBody('')
+    setNotification('SAVED')
+    if (selectedNote) {
+      updateArchivedNote(selectedNote.id, title, body)
+      return refreshList()
+    }
+
+    createNote(title, body)
+    refreshList()
+  }
+
   const onDelete = (e) => {
     e.preventDefault()
     if (!selectedNote) return
     const {id} = selectedNote
-    deleteNote(id)
+    if (!isArchived) {
+      deleteNote(id)
+    } else {
+      deleteFromArchive(id)
+    }
     refreshList()
     setTitle('')
     setBody('')
@@ -55,8 +81,17 @@ export default function Form({selectedNote, setSelectedNote, refreshList}) {
   const onArchive = (e) => {
     e.preventDefault()
     archiveNote(selectedNote)
-    refreshList()
     setTitle('')
+    setBody('')
+    refreshList()
+  }
+
+  const onRestore = (e) => {
+    e.preventDefault()
+    restoreNote(selectedNote)
+    setTitle('')
+    setBody('')
+    refreshList()
   }
 
   return (
@@ -69,7 +104,7 @@ export default function Form({selectedNote, setSelectedNote, refreshList}) {
         <BootstrapForm.Label>Note</BootstrapForm.Label>
         <BootstrapForm.Control as="textarea" rows={3} value={body} onChange={onChangeBody} />
       </BootstrapForm.Group>
-      <Button variant="success" onClick={onSave}>
+      <Button variant="success" onClick={isArchived ? onSaveArchived : onSave}>
         Save
       </Button>{' '}
       {selectedNote && (
@@ -78,8 +113,8 @@ export default function Form({selectedNote, setSelectedNote, refreshList}) {
         </Button>
       )}{' '}
       {selectedNote && (
-        <Button variant="secondary" onClick={onArchive}>
-          Archive
+        <Button variant="secondary" onClick={isArchived ? onRestore : onArchive}>
+          {isArchived ? 'restore' : 'Archive'}
         </Button>
       )}
       {notification && (

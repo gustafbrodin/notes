@@ -58,12 +58,31 @@ export function deleteNote(id) {
   return true
 }
 
+export function deleteFromArchive(id) {
+  const archive = getArchive()
+  const indexToDelete = archive.findIndex((note) => note.id === id)
+  if (indexToDelete >= 0) archive.splice(indexToDelete, 1)
+  const jsonArchiveArray = JSON.stringify(archive)
+  localStorage.setItem('archive', jsonArchiveArray)
+  return true
+}
+
 export function archiveNote(note) {
   const archive = getArchive()
   deleteNote(note.id)
   archive.push(note)
   const jsonArchiveArray = JSON.stringify(archive)
   localStorage.setItem('archive', jsonArchiveArray)
+}
+
+export function restoreNote(note) {
+  const notes = getNotes()
+  notes.push(note)
+  deleteFromArchive(note.id)
+
+  deleteNote(note.id)
+  const jsonNoteArray = JSON.stringify(notes)
+  localStorage.setItem('notes', jsonNoteArray)
 }
 
 export function getArchive(note) {
@@ -73,4 +92,19 @@ export function getArchive(note) {
   }
   const parsedArchive = JSON.parse(archive)
   return parsedArchive
+}
+
+export function updateArchivedNote(id, title, body) {
+  const archive = getArchive()
+  const indexToUpdate = archive.findIndex((note) => note.id === id)
+  const note = {
+    id,
+    title,
+    body,
+  }
+  archive.splice(indexToUpdate, 1)
+  archive.splice(0, 0, note)
+  const jsonNoteArray = JSON.stringify(archive)
+  localStorage.setItem('archive', jsonNoteArray)
+  return archive
 }
